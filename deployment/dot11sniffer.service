@@ -1,0 +1,13 @@
+[Unit]
+Description=CSCI379 802.11 Device Sniffer
+After=network.target
+
+[Service]
+Type=simple
+User=sniffer
+Group=sniffer
+ExecStart=/root/dot11sniffer/dot11sniffer.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

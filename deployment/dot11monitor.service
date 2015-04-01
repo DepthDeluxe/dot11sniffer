@@ -1,0 +1,13 @@
+[Unit]
+Description=Monitor Mode Enabler
+Requires=network.target local-fs.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+KillMode=none
+ExecStart=airmon-ng start wlp0s20u2 6
+ExecStop=airmon-ng stop mon0
+
+[Install]
+WantedBy=multi-user.target
