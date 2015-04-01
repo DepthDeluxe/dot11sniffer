@@ -3,13 +3,25 @@ The 802.11 device counting script for CSCI379.  This counts the number of active
 network by using a network card in monitor mode.
 
 # Initial Configuration
-To configure your computer, you must do three things: (1) install `aircrack-ng` program and `scapy`
-packet sniffing library, (2) configure NetworkManager or your chosen Linux network management utility
+To configure your computer, you must do three things: (1) install necessary prerequisite libraries
+(2) configure NetworkManager or your chosen Linux network management utility
 to ignore your wireless device, and (3) use Aircrack to enable monitor mode on your card.
 
 ## Install Aircrack and Scapy
+The prerequisite libraries are as follows:
+  1. aircrack-ng
+  2. scapy
+  3. netifaces python library
+
+To install aircrack-ng and scapy, run the following command on a debian-based Linux machine.
 ```bash
 apt-get install aircrack-ng scapy
+```
+
+To install netifaces, you must use the python package manager.  Make sure that you are installing the
+library for python2 and not python3!
+```bash
+pip install netifaces
 ```
 
 ## Configure NetworkManager
