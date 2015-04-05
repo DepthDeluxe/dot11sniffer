@@ -49,7 +49,7 @@ file { '/etc/systemd/system/dot11monitor.service':
 }
 service { 'dot11monitor':
   require => [ File['/etc/systemd/system/dot11monitor.service'],
-               Package['aircrack-ng] ],
+               Package['aircrack-ng'] ],
 
   ensure => running,
   enable => true,
