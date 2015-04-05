@@ -25,7 +25,7 @@ package { 'aircrack-ng':
 # service files for the sniffer
 file { '/etc/systemd/system/dot11sniffer.service':
   ensure => file,
-  source => $proot + '/deployment/dot11sniffer.service',
+  source => "${proot}/deployment/dot11sniffer.service",
   owner  => root,
   group  => root,
 }
@@ -43,7 +43,7 @@ service { 'dot11sniffer':
 # service file to create the monitor interface
 file { '/etc/systemd/system/dot11monitor.service':
   ensure => file,
-  source => $proot + '/deployment/dot11monitor.service',
+  source => "${proot}/deployment/dot11monitor.service",
   owner  => root,
   group  => root,
 }
