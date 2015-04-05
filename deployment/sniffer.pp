@@ -1,8 +1,9 @@
+$proot = '/home/sniffer/dot11sniffer'
+
 user { 'sniffer':
   ensure        => present,
   shell         => '/bin/nologin',
   groups        => ['colin'],
-  managehome    => false,
 }
 
 package { 'python2':
@@ -21,9 +22,10 @@ package { 'aircrack-ng':
   ensure => installed,
 }
 
+# service files for the sniffer
 file { '/etc/systemd/system/dot11sniffer.service':
   ensure => file,
-  source => './dot11sniffer.service',
+  source => $proot + '/deployment/dot11sniffer.service',
   owner  => root,
   group  => root,
 }
@@ -38,9 +40,10 @@ service { 'dot11sniffer':
   enable => true,
 }
 
+# service file to create the monitor interface
 file { '/etc/systemd/system/dot11monitor.service':
   ensure => file,
-  source => './dot11monitor.service',
+  source => $proot + '/deployment/dot11monitor.service',
   owner  => root,
   group  => root,
 }

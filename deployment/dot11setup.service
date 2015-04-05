@@ -1,0 +1,12 @@
+[Unit]
+Description=Node Setup Interface
+Requires=network.target local-fs.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+KillMode=none
+ExecStart=/root/dot11setup.sh
+
+[Install]
+WantedBy=multi-user.target
