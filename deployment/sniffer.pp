@@ -13,7 +13,7 @@ package { 'python2-pip':
   ensure => installed,
 }
 exec { 'pip-install':
-  command => 'pip2 install netifaces',
+  command => '/usr/bin/pip2 install netifaces',
 }
 
 package { 'scapy':
