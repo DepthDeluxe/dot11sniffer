@@ -6,7 +6,7 @@ Requires=network.target local-fs.target
 Type=oneshot
 RemainAfterExit=yes
 KillMode=none
-ExecStart=/usr/bin/airmon-ng start wlp0s20u2 6
+ExecStart=/usr/bin/airmon-ng start wlan0 6
 ExecStop=/usr/bin/airmon-ng stop mon0
 
 [Install]
