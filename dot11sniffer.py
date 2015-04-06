@@ -2,12 +2,14 @@
 
 import time
 
-from sniffer_module import *
 from threading import *
 
 import signal
 import sys
 import netifaces
+
+from sniffer_module import *
+from dblib.dbSender import *
 
 # globals
 shouldQuit = None
@@ -37,6 +39,18 @@ def getHostname():
 
     return hostname
 
+# send the contents of the list
+def sendData(otherThread):
+    otherThread.listLock.acquire()
+
+    # iterate through each mac, sending it off
+    for mac in otherThread.devices:
+        sender = Sender(hostname, otherThread.devices[mac], 0)
+        sender.send()
+
+    otherThread.devices = {}
+    otherThread.listLock.release()
+
 def main():
     # register signal handler and then sleep until we get a response
     signal.signal(signal.SIGINT, sigintHandler)
@@ -60,7 +74,8 @@ def main():
 
     # sit and spin while the other thread does things
     while True:
-        time.sleep(1)
+        # sendData(otherThread)
+        time.sleep(15)
 
 # run main
 if __name__ == "__main__":
