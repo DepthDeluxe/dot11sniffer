@@ -14,6 +14,10 @@ package { 'python2-pip':
 }
 exec { 'pip-install':
   command => '/usr/bin/pip2 install netifaces',
+  require => Package['base-devel'],
+}
+package { 'base-devel':
+  ensure => installed,
 }
 
 package { 'scapy':
