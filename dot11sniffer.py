@@ -1,3 +1,5 @@
+#!/bin/python2
+
 import time
 
 from sniffer_module import *
