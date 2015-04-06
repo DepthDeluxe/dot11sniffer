@@ -13,8 +13,9 @@ package { 'python2-pip':
   ensure => installed,
 }
 exec { 'pip-install':
-  command => '/usr/bin/pip2 install netifaces',
   require => Package['base-devel'],
+
+  command => '/usr/bin/pip2 install netifaces',
 }
 package { 'base-devel':
   ensure => installed,
