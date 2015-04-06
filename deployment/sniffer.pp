@@ -14,7 +14,7 @@ package { 'python2-pip':
 }
 package { 'netifaces':
   ensure => installed,
-  provider => 'pip',
+  provider => 'pip2',
 }
 
 package { 'scapy':
