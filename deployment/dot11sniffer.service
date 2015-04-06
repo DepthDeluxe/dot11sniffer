@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=root
 Group=root
-ExecStart=/root/dot11sniffer/dot11sniffer.py
+ExecStart=/home/sniffer/dot11sniffer/dot11sniffer.py
 Restart=on-abort
 
 [Install]
