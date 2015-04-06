@@ -17,27 +17,51 @@ otherThread = None
 def sigintHandler(signum, frame):
     print("Quitting uncleanly")
     sys.exit()
-# register signal handler and then sleep until we get a response
-signal.signal(signal.SIGINT, sigintHandler)
-
-# init the processing thread
-shouldQuit = False
-listLock = Lock()
-otherThread = ProcessingThread(listLock, shouldQuit)
 
 # search for interfaces until we found a monitor interface
-print("Looking for monitor interfaces...")
-chosenIface = None
-while chosenIface is not None:
-    ifaces = netifaces.interfaces()
-    for iface in ifaces:
-        if iface[:3] == 'mon':
-            chosenIface = iface
+def findIface():
+    chosenIface = None
+    while chosenIface is None:
+        ifaces = netifaces.interfaces()
+        for iface in ifaces:
+            if iface[:3] == 'mon':
+                chosenIface = iface
 
+    return chosenIface
 
-# start the other thread to start sniffing
-otherThread.start()
+# gets hostname for computer
+def getHostname():
+    hostnameFile = open("/etc/hostname", "r")
+    hostname = hostnameFile.readline()
+    hostnameFile.close()
 
-# sit and spin while the other thread does things
-while True:
-    time.sleep(1)
+    return hostname
+
+def main():
+    # register signal handler and then sleep until we get a response
+    signal.signal(signal.SIGINT, sigintHandler)
+
+    # init the processing thread
+    shouldQuit = False
+    listLock = Lock()
+    otherThread = ProcessingThread(listLock, shouldQuit)
+
+    # find monitor inferaces
+    print("Looking for monitor interfaces...")
+    chosenIface = findIface()
+    print("Found Interface: " + chosenIface)
+
+    # get the hostname
+    hostname = getHostname()
+    print("Hostname: " + hostname)
+
+    # start the other thread to start sniffing
+    otherThread.start()
+
+    # sit and spin while the other thread does things
+    while True:
+        time.sleep(1)
+
+# run main
+if __name__ == "__main__":
+    main()
