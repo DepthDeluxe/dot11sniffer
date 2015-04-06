@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Type=simple
-User=sniffer
-Group=sniffer
+User=root
+Group=root
 ExecStart=/root/dot11sniffer/dot11sniffer.py
 Restart=on-abort
 
