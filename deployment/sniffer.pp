@@ -12,9 +12,8 @@ package { 'python2':
 package { 'python2-pip':
   ensure => installed,
 }
-package { 'netifaces':
-  ensure => installed,
-  provider => 'pip2',
+exec { 'pip-install':
+  command => 'pip2 install netifaces',
 }
 
 package { 'scapy':
@@ -37,7 +36,7 @@ service { 'dot11sniffer':
                Service['dot11monitor'],
                Package['python2'],
                Package['scapy'],
-               Package['netifaces'],
+               Exec['pip-install'],
                User['sniffer'], ],
 
   ensure => running,
