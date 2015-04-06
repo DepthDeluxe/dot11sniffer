@@ -3,7 +3,6 @@ $proot = '/home/sniffer/dot11sniffer'
 user { 'sniffer':
   ensure        => present,
   shell         => '/bin/nologin',
-  groups        => ['colin'],
 }
 
 package { 'python2':
