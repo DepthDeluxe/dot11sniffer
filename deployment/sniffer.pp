@@ -18,7 +18,7 @@ exec { 'pip-install':
   command => '/usr/bin/pip2 install netifaces',
 }
 package { 'base-devel':
-  ensure => installed,
+  ensure => latest,
 }
 
 package { 'scapy':
