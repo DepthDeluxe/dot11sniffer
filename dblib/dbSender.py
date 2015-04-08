@@ -1,4 +1,4 @@
-import socket
+import multiprocessing.connection
 
 SIZE = 128
 
@@ -12,8 +12,7 @@ class Sender:
         self.port = port
 
     def send():
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((host,port))
+        sock = multiprocessing.connection.Client((self.host,self.port))
         data = self.node+','+self.time+','+self.sigstr+','+self.mac
         sock.send(data)
         s.close()
