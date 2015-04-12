@@ -1,6 +1,7 @@
 import pymongo
 import multiprocessing
 import multiprocessing.connection
+import time
 
 SIZE = 128
 
@@ -12,15 +13,20 @@ def recv_data(sock,dataQueue,cQueue):
     connect.close()
 
 def db_send(database,queue):
-    new_posts = []
-    for i in range(100):
+    t = int(time.time())
+    doc = int(t/600)   
+    new_posts = {'_id':doc}
+    for i in queue.qsize():
         temp = queue.get()
         temp = temp.split(',')
-        dic = {'node':temp[0],'time':temp[1],'sigstr':temp[2],'mac':temp[3]}
-        new_posts.append(dic)
+        new_posts.update({temp[3]:{'node':temp[0],'time':temp[1],'sigstr':temp[2]}})
+
+##        dic = {'node':temp[0],'time':temp[1],'sigstr':temp[2],'mac':temp[3]}
+##        new_posts.append(dic)
     
-    posts = database.posts
-    posts.insert_many(new_posts)
+##    posts.insert_many(new_posts)
+    collection = database.times
+    collection.insert(new_posts)
 
 def server(host,port):
     client = pymongo.MongoClient()
@@ -38,10 +44,11 @@ def server(host,port):
         if task == "listen":
             p = multiprocessing.Process(target=recv_data, args=(sock,dq,cq))
             p.start()
-        if (dq.qsize() == 100):
+##        if (dq.qsize() == 100):
+        if time.time()%600 == 0:
             p = multiprocessing.Process(target=db_send,args=(db,dq))
             p.start()
-            pass
+##            pass
 
 server('',10000)
 
