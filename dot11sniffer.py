@@ -14,6 +14,8 @@ from dblib.dbSender import *
 # globals
 shouldQuit = None
 otherThread = None
+sender = Sender()
+hostname = ""
 
 # signal handler
 def sigintHandler(signum, frame):
@@ -32,24 +34,29 @@ def findIface():
     return chosenIface
 
 # gets hostname for computer
-def getHostname():
+def loadHostname():
+    global hostname
+
     hostnameFile = open("/etc/hostname", "r")
     hostname = hostnameFile.readline()
     hostnameFile.close()
 
-    return hostname
-
 # send the contents of the list
 def sendData(otherThread):
+    # lock for clearing
     otherThread.listLock.acquire()
 
-    # iterate through each mac, sending it off
+    # add each of the packets to the list
     for mac in otherThread.devices:
-        sender = Sender(hostname, otherThread.devices[mac], 0)
-        sender.send()
+        sender.add(mac, hostname, time.time(), "")
 
+    # clear out the device buffer
     otherThread.devices = {}
+
     otherThread.listLock.release()
+
+    # and send off the data
+    sender.send()
 
 def main():
     # register signal handler and then sleep until we get a response
@@ -66,7 +73,7 @@ def main():
     print("Found Interface: " + chosenIface)
 
     # get the hostname
-    hostname = getHostname()
+    loadHostname()
     print("Hostname: " + hostname)
 
     # start the other thread to start sniffing
@@ -74,7 +81,8 @@ def main():
 
     # sit and spin while the other thread does things
     while True:
-        # sendData(otherThread)
+        print("sending off data")
+        sendData(otherThread)
         time.sleep(15)
 
 # run main
