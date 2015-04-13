@@ -8,15 +8,16 @@ class Sender:
         self.port = port
         self.data = ""
 
-    def send():
+    def send(self):
         sock = multiprocessing.connection.Client((self.host,self.port))
         sock.send(self.data)
-        s.close()
+        sock.close()
 
-    def add(mac,node,time,sigstr):
+    def add(self,mac,node,time,sigstr):
         if len(self.data) == 0:
-            self.data = self.data+str(node)+','+str(time)+','+str(sigstr)+
-                ','+str(mac)
+            self.data = self.data+str(node)+','+str(time)+','+str(sigstr)+','+str(mac)
         else:
-            self.data = self.data+','+str(node)+','+str(time)+','+str(sigstr)+
-                ','+str(mac)
+            self.data = self.data+','+str(node)+','+str(time)+','+str(sigstr)+','+str(mac)
+
+    def clear(self):
+        self.data = ''
