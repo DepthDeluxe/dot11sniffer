@@ -3,16 +3,20 @@ import multiprocessing.connection
 SIZE = 128
 
 class Sender:
-    def __init__(self,node,time,sigstr,mac,host='gouda.bucknell.edu',port=10000):
-        self.node = str(node)
-        self.time = str(time)
-        self.sigstr = str(sigstr)
-        self.mac = str(mac)
+    def __init__(self,host='gouda.bucknell.edu',port=10000):
         self.host = host
         self.port = port
+        self.data = ""
 
     def send():
         sock = multiprocessing.connection.Client((self.host,self.port))
-        data = self.node+','+self.time+','+self.sigstr+','+self.mac
-        sock.send(data)
+        sock.send(self.data)
         s.close()
+
+    def add(mac,node,time,sigstr):
+        if len(self.data) == 0:
+            self.data = self.data+str(node)+','+str(time)+','+str(sigstr)+
+                ','+str(mac)
+        else:
+            self.data = self.data+','+str(node)+','+str(time)+','+str(sigstr)+
+                ','+str(mac)

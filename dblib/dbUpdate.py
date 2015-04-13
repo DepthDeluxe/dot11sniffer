@@ -16,10 +16,11 @@ def db_send(database,queue):
     t = int(time.time())
     doc = int(t/600)   
     new_posts = {'_id':doc}
-    for i in queue.qsize():
-        temp = queue.get()
-        temp = temp.split(',')
-        new_posts.update({temp[3]:{'node':temp[0],'time':temp[1],'sigstr':temp[2]}})
+    for i in range(len(queue.qsize())):
+        data = queue.get()
+        data = data.split(',')
+        for j in range(0,len(data)-4,4):
+            new_posts.update({data[j+3]:{'node':data[0],'time':data[j+1],'sigstr':data[j+2]}})
 
 ##        dic = {'node':temp[0],'time':temp[1],'sigstr':temp[2],'mac':temp[3]}
 ##        new_posts.append(dic)
