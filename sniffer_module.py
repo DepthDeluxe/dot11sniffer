@@ -33,7 +33,7 @@ class ProcessingThread(threading.Thread):
         currentEpochTime = int(time.time())
         numActive = 0
         for ssid in self.devices:
-            diff = currentEpochTime - self.devices[ssid]
+            diff = currentEpochTime - self.devices[ssid][0]
             if ( diff < 300 ):
                 numActive += 1
 
@@ -52,7 +52,7 @@ class ProcessingThread(threading.Thread):
         else:
             self.accessPoints[ssid] = [mac]
 
-    def _addMACToList(self, mac):
+    def _addMACToList(self, mac, sigStr):
         # lock access to the devices list
         self.listLock.acquire()
 
@@ -61,7 +61,7 @@ class ProcessingThread(threading.Thread):
 
         # add the MAC address to the list of devices if it already
         # isn't in there, otherwise update time we last saw it
-        self.devices[mac] = currentEpochTime
+        self.devices[mac] = [currentEpochTime, sigStr]
 
         # unlock access to the devices list
         self.listLock.release()
@@ -102,7 +102,7 @@ class ProcessingThread(threading.Thread):
             # get the 802.11 layer and pull the MAC address
             dot11Layer = pkt.getlayer(Dot11)
 
-            self._addMACToList(dot11Layer.addr2)
+            self._addMACToList(dot11Layer.addr2, pkt.getlayer(RadioTap).dBm_AntSignal)
             self._printNumActiveDevices()
 
         # clean devices list every 25000 packets

@@ -48,7 +48,7 @@ def sendData(otherThread):
 
     # add each of the packets to the list
     for mac in otherThread.devices:
-        sender.add(mac, hostname, otherThread.devices[mac], "")
+        sender.add(mac, hostname, otherThread.devices[mac][0], otherThread.devices[mac][1])
 
     # clear out the device buffer
     otherThread.devices = {}
