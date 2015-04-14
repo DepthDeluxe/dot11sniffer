@@ -43,6 +43,8 @@ def loadHostname():
 
 # send the contents of the list
 def sendData(otherThread):
+    sender.clear()
+
     # lock for clearing
     otherThread.listLock.acquire()
 
