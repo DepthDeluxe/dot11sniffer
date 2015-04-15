@@ -24,7 +24,7 @@ def db_send(database,queue):
         data = data.split(',')
         for j in range(0,len(data)-3,4):
             new_posts = {}
-            new_posts.update({'data':{"mac":data[j+3],'node':int(data[0]),'time':int(data[j+1]),'sigstr':int(data[j+2])}})
+            new_posts.update({'data':{"mac":data[j+3],'node':data[0],'time':int(data[j+1]),'sigstr':int(data[j+2])}})
             collection.update({'_id':doc},{"$addToSet":new_posts},upsert=True)
 ##        dic = {'node':temp[0],'time':temp[1],'sigstr':temp[2],'mac':temp[3]}
 ##        new_posts.append(dic)
