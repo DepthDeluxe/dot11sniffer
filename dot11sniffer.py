@@ -41,6 +41,8 @@ def loadHostname():
     hostname = hostnameFile.readline()
     hostnameFile.close()
 
+    hostname = hostname[:-1]
+
 # send the contents of the list
 def sendData(otherThread):
     sender.clear()
