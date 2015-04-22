@@ -14,6 +14,7 @@ class DBFinder:
         self.client = pymongo.MongoClient("gouda.bucknell.edu")
         self.db = self.client.cheddar
         self.collection = self.db.times
+        self.processedCollection = self.db.processed_data
 
     #Do not use find_mac, it is incomplete
     '''
@@ -29,13 +30,28 @@ class DBFinder:
         data = {k:v for (k,v) in data.iteritems() if mac in k}
         return data
 
+    '''
+        Pulls a timeblock from the collection
+    '''
     def pull(self, timeblock=math.floor(time.time() / 600)):
         return self.collection.find_one({"_id":timeblock})['data']
 
+    '''
+        Sets the number of unique nodes in a timeblock region
+    '''
     def set_num_unique(self, timeblock, val):
         updateObj = {}
         updateObj['$set'] = {'uniq': val}
         self.collection.update_one({'_id': timeblock}, updateObj)
+
+    '''
+        Writes one whole processed data chunk to the database
+    '''
+    def write_processed_block(self, timeblock, data):
+        dbObj = {}
+        dbObj['_id'] = timeblock
+        dbObj['data'] = data
+        self.processedCollection.insert(dbObj)
 
 #time is "month/day/year,H:M"
 def pull(self,curTime):
