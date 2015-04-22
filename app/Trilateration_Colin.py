@@ -5,7 +5,20 @@ class Point:
         self.x = x
         self.y = y
 
-def triangulate(inSources, distances):
+def rssToEstimatedDistance(rss):
+    freq = 2462             # freq of WiFi channel 6
+    origDBm = -20           # estimate this value
+    loss = abs(origDBm - rss)
+    dist = 10 ** ( ( loss + 27.55 - 20 * math.log10(freq) ) / 20 )
+
+    return dist
+
+def trilaterate(inSources, rss):
+    distances = []
+    distances.append( rssToEstimatedDistance(rss[0]) )
+    distances.append( rssToEstimatedDistance(rss[1]) )
+    distances.append( rssToEstimatedDistance(rss[2]) )
+
     # find the three intersection points
     tp1 = _findEqualPerp(inSources[0], inSources[1], distances[0], distances[1])
     tp2 = _findEqualPerp(inSources[0], inSources[2], distances[0], distances[2])
@@ -47,7 +60,7 @@ def main():
     b = Point(2, 3)
     c = Point(5, 7)
 
-    t = triangulate([a,b,c], [2,3,5])
+    t = trilaterate([a,b,c], [2,3,5])
     print(t.x)
     print(t.y)
 

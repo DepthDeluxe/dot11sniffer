@@ -53,6 +53,9 @@ class DBFinder:
         dbObj['data'] = data
         self.processedCollection.insert(dbObj)
 
+    def pull_processed_block(self, timeblock):
+        return self.processedCollection.find_one({"_id":timeblock})
+
 #time is "month/day/year,H:M"
 def pull(self,curTime):
         epoch = datetime.datetime.utcfromtimestamp(0)
