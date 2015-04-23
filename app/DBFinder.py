@@ -65,7 +65,12 @@ class DBFinder:
         self.processedCollection.insert(dbObj)
 
     def pull_processed_block(self, timeblock):
-        return self.processedCollection.find_one({"_id":timeblock})
+        points = []
+        obj = self.processedCollection.find_one({"_id":timeblock})
+        for pt in obj['data']:
+            points.append(pt)
+
+        return points
 
 #time is "month/day/year,H:M"
 def pull(self,curTime):
