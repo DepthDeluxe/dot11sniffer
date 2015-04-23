@@ -19,6 +19,12 @@ def main():
         print(ident)
         processTrilateration(ident, finder)
 
+    # pull points for the most recent block
+    points = finder.pull_processed_block(math.floor(time.time() / 600) - 3)
+    uniq = finder.pull_processed_uniq(math.floor(time.time() / 600) - 3)
+    print(points)
+    print(uniq)
+
 def processTrilateration(timeblock, finder):
     # use the previous timeblock
     macs = {}
@@ -28,6 +34,8 @@ def processTrilateration(timeblock, finder):
         if mac not in macs:
             macs[mac] = {}
         macs[mac][entry['node']] = [ entry['sigstr'], entry['time'] ]
+
+    numMacs = len(macs)
 
     triples = []
     for mac in reversed(list(macs.keys())):
@@ -40,8 +48,7 @@ def processTrilateration(timeblock, finder):
 
         points.append((val.x, val.y))
 
-    finder.write_processed_block(timeblock, points)
-
+    finder.write_processed_block(timeblock, points, numMacs)
 
 if __name__ == "__main__":
     main()
