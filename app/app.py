@@ -3,35 +3,45 @@ import math
 import DBFinder
 import Trilateration_Colin
 
-macs = {}
+# sniffers are
+# [ sniffer-0, sniffer-1, sniffer-something ]
 snifferPositions = [Trilateration_Colin.Point(361, 231), Trilateration_Colin.Point(338, 617), Trilateration_Colin.Point(194, 665)]
 
-# sniffers are
-# sniffer-0, sniffer-1, sniffer-something
 def main():
     # set the sniffer positions appropriate location in BRKI1
     finder = DBFinder.DBFinder()
 
+    # get a list of all timeblocks
+    ids = finder.findIds()
+
+    # process the trilateration for each timeblock
+    for ident in ids:
+        print(ident)
+        processTrilateration(ident, finder)
+
+def processTrilateration(timeblock, finder):
     # use the previous timeblock
-    timeblock = math.floor(time.time() / 600) - 1
-    data = finder.pull(timeblock)
-    for entry in data:
+    macs = {}
+    inData = finder.pull(timeblock)
+    for entry in inData:
         mac = entry['mac']
         if mac not in macs:
             macs[mac] = {}
         macs[mac][entry['node']] = [ entry['sigstr'], entry['time'] ]
-
-    print(macs)
 
     triples = []
     for mac in reversed(list(macs.keys())):
         if ( len(macs[mac]) == 3 ):
             triples.append(macs[mac])
 
+    points = []
     for triple in triples:
         val = Trilateration_Colin.trilaterate(snifferPositions, [ triple['sniffer-0'][0], triple['sniffer-1'][0], triple['sniffer-something'][0] ])
 
-        print((val.x, val.y))
+        points.append((val.x, val.y))
+
+    finder.write_processed_block(timeblock, points)
+
 
 if __name__ == "__main__":
     main()

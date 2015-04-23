@@ -16,6 +16,17 @@ class DBFinder:
         self.collection = self.db.times
         self.processedCollection = self.db.processed_data
 
+    '''
+        Gets list of all IDs in the database
+    '''
+    def findIds(self):
+        resList = []
+        responses = self.collection.find({}, {"_id": 1})
+        for response in responses:
+            resList.append(response["_id"])
+
+        return resList
+
     #Do not use find_mac, it is incomplete
     '''
         find a mac address based on a time
