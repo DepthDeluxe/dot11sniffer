@@ -58,10 +58,11 @@ class DBFinder:
     '''
         Writes one whole processed data chunk to the database
     '''
-    def write_processed_block(self, timeblock, data):
+    def write_processed_block(self, timeblock, data, uniq):
         dbObj = {}
         dbObj['_id'] = timeblock
         dbObj['data'] = data
+        dbObj['uniq'] = uniq
         self.processedCollection.insert(dbObj)
 
     def pull_processed_block(self, timeblock):
@@ -71,6 +72,10 @@ class DBFinder:
             points.append(pt)
 
         return points
+
+    def pull_processed_uniq(self, timeblock):
+        obj = self.processedCollection.find_one({"_id":timeblock})
+        return obj['uniq']
 
 #time is "month/day/year,H:M"
 def pull(self,curTime):
