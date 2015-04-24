@@ -18,7 +18,7 @@ class Compress:
 
     def download(self,time):
         compressed = self.collection.find_one({'_id':time})['data']
-        pickled = zlib.decompress(str(data))
+        pickled = zlib.decompress(str(compressed))
         data = cPickle.loads(pickled)
         return {'_id':time,'data':data}
 
