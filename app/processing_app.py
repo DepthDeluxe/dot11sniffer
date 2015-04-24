@@ -1,13 +1,35 @@
 import time
 import math
 import DBFinder
+import os
 import Trilateration_Colin
 
 # sniffers are
 # [ sniffer-0, sniffer-1, sniffer-something ]
 snifferPositions = [Trilateration_Colin.Point(361, 231), Trilateration_Colin.Point(338, 617), Trilateration_Colin.Point(194, 665)]
 
+def writePIDFile():
+    f = open("./processing.pid", "w")
+    f.write(str(os.getpid()))
+    f.close()
+
 def main():
+    # write the PID file so we know where its running
+    writePIDFile()
+
+    oldBlock = 0
+    while True:
+        # process only if we moved timeblocks
+        curBlock = math.floor( time.time() / 600 )
+        if curBlock != oldBlock:
+            oldBlock = curBlock
+            print("processing: " + str(curBlock))
+            process()
+
+        # sleep for another 5 seconds
+        time.sleep(5)
+
+def process():
     # set the sniffer positions appropriate location in BRKI1
     finder = DBFinder.DBFinder()
 
