@@ -1,0 +1,65 @@
+/* --- Main Header --- */
+#main_header {
+    background: #FFD700;
+    font-family: Arial, Verdana, "Times New Roman";
+    font-style: normal;
+    font-size: 40px;
+    padding-top: 25px 50px 10px 100px;
+    border-style: solid;
+    border-color: #FFA500;
+    border-size: 5px;
+}
+
+
+/* -----Tabs------*/
+.tabs {
+    width:100%;
+    display:block;
+}
+
+    /* ------- Tab Links ------- */
+    /* Clearfix */
+    .tab-links:after {
+        display:block;
+        clear:both;
+        content:'';
+    }
+
+    .tab-links li {
+        margin:0px 5px; /* Tab separation distance; vertical horizontal */
+        float:left;    /* Text-align the tabs left */
+        list-style;none;
+    }
+
+        .tab-links a {
+            padding:9px 15px;
+            display:inline-block;
+            border-radius:3px 3px 0px 0px;
+            background:#7FB5DA;
+            font-size:16px;
+            font-weight:600;
+            color:#4C4C4C;
+            transition:all linear 0.15s;
+        }
+
+    /* --- Active tab on-hover controls -- */
+    li.active a, li.active a:hover {
+        background:#7FB5DA;  /* tab background */
+        color:#4C4C4C; /* text color */
+    }
+
+    /* ----- Content of Tabs ----- */
+    .tab-content {
+        padding:15px;
+        border-radius:3px;
+        box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+        background:#FFF;
+    }
+
+        .tab {
+            display:none;
+        }
+
+        .tab-active {
+            display:block;
+        }
