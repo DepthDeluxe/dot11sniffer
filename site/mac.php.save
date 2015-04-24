@@ -1,0 +1,72 @@
+<html>
+
+  <head>
+    <title>MAC & Cheese</title>
+    <p id="main_header">MAC & Cheese: Mapping Population Densities with WiFi Signals </p>
+  </head>
+
+  <body>
+
+    <!-- Includes jQuery 2.1.0 for use by script.js -->
+    <script type "text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="script.js"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">	 
+  	<link rel="stylesheet" type='text/css' href='stylesheet.css'/>
+
+    <div class="tabs">
+        <ul class="tab-links">
+	        <li class="active"><a href="#project_description">Project Description</a></li>
+ 	        <li><a href="#db">Database</a></li>
+            <li><a href="#map">Map</a></li>
+            <li><a href="#team">Our Team</a></li>
+	    </ul>
+
+	    <div class="tab-content">
+            <div id="project_description" class="active">
+                <p id="proj_desc"> </p>
+            </div>
+
+            <div id="db" class="tab">
+	          <body>
+		        <div class="container">
+      			<?php
+      				error_reporting(-1);
+      				ini_set('display_errors', 'On');
+				    $m = new MongoClient("mongodb://gouda.bucknell.edu:27017");
+				    $db = $m->selectDB('cheddar');
+    				$collection = $db->cheese;
+				    $cursor = $collection->find();
+				    echo "<table class='table'>";
+				    echo "<thead>";
+				    echo "<tr>";
+				    echo "<th>Name</th>";
+				    echo "</tr>";
+				    echo "</thead>";
+				    echo "<tbody>";
+				    foreach ($cursor as $doc) {
+	    				echo "<tr>";
+	    				echo "<td>" . $doc['name'] . "</td>";
+	    				echo "</tr>";
+				    }
+				    echo "</table>";
+			    ?>
+    		    </div>								
+  	          </body>
+  	        </div>
+
+	        <div id="map" class="tab">
+                <p>Death to America...and butter sauce! Don't boil me...I'm still alive! IRAQ LOBSTA!</p>
+                <img src="images/brki_w_nodes.png" alt="Place density gradient map here" id="img_test" style='width:400px;height=500px'>
+            </div>
+
+            <div id="team" class="tab">
+                <img src="images/colin_face.png" id="colin" alt="poopyhead" style='width=720px;height=520px'>
+            </div>
+
+        </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,15 @@
+METHOD ONE
+    - Create 4 points at respective [x,y]s
+    - Generate count of "seen" devices/data points
+    - Use Shepard's Method to generate gradient  
+
+
+METHOD TWO
+    - Map coordinate locations of all devices
+    - Discretize floorplan into chunks of given size (by room?)
+    - Count num devices in each chunk
+    - Place "count" node in center of bin OR (OPTIONAL) find center of mass
+    - Use Shepard's Method to generate gradient
+
+- Put map under tab, auto-display most recent data
+- Refresh button to pull
