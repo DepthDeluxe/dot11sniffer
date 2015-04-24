@@ -1,6 +1,7 @@
 import time
 import math
 import DBFinder
+import dbCompressor
 import os
 import Trilateration_Colin
 
@@ -32,6 +33,7 @@ def main():
 def process():
     # set the sniffer positions appropriate location in BRKI1
     finder = DBFinder.DBFinder()
+    compressor = dbCompressor.Compress()
 
     # get a list of all timeblocks
     ids = finder.findIds()
@@ -46,6 +48,11 @@ def process():
     for ident in idsToProcess:
         print(ident)
         processTrilateration(ident, finder)
+
+        # pull the data for compression
+        data = finder.pull(ident)
+        compressor.upload(ident, data)
+
 
 def processTrilateration(timeblock, finder):
     # use the previous timeblock

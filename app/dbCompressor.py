@@ -1,14 +1,14 @@
 import zlib
-import cPickle
+import pickle as cPickle
 import pymongo
 import bson
 
 class Compress:
     def __init__(self):
         self.client = pymongo.MongoClient("gouda.bucknell.edu")
-        self.collection = client.cheddar.compress
-        self.timedb = client.cheddar.times
-        
+        self.collection = self.client.cheddar.compress
+        self.timedb = self.client.cheddar.times
+
     def upload(self,time,data):
         pickled = cPickle.dumps(data)
         compressed = zlib.compress(pickled,9)
@@ -17,7 +17,7 @@ class Compress:
         self.collection.update({'_id':time},update,upsert=True)
 
     def download(self,time):
-        compressed = collection.find_one({'_id':time})['data']
+        compressed = self.collection.find_one({'_id':time})['data']
         pickled = zlib.decompress(str(data))
         data = cPickle.loads(pickled)
         return {'_id':time,'data':data}
