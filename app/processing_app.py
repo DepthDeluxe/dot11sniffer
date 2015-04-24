@@ -14,16 +14,16 @@ def main():
     # get a list of all timeblocks
     ids = finder.findIds()
 
+    # get a list of processed timeblocks
+    processedIds = finder.findProcessedIds()
+
+    # get a list of ids to process
+    idsToProcess = [ x for x in ids if x not in processedIds ]
+
     # process the trilateration for each timeblock
-    for ident in ids:
+    for ident in idsToProcess:
         print(ident)
         processTrilateration(ident, finder)
-
-    # pull points for the most recent block
-    points = finder.pull_processed_block(math.floor(time.time() / 600) - 3)
-    uniq = finder.pull_processed_uniq(math.floor(time.time() / 600) - 3)
-    print(points)
-    print(uniq)
 
 def processTrilateration(timeblock, finder):
     # use the previous timeblock

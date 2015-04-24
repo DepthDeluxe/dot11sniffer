@@ -17,7 +17,7 @@ class DBFinder:
         self.processedCollection = self.db.processed_data
 
     '''
-        Gets list of all IDs in the database
+        Gets list of all IDs in the raw collection
     '''
     def findIds(self):
         resList = []
@@ -26,6 +26,18 @@ class DBFinder:
             resList.append(response["_id"])
 
         return resList
+
+    '''
+        Gets list of all IDs in the processed collection
+    '''
+    def findProcessedIds(self):
+        resList = []
+        responses = self.processedCollection.find({}, {"_id": 1})
+        for response in responses:
+            resList.append(response["_id"])
+
+        return resList
+
 
     #Do not use find_mac, it is incomplete
     '''
