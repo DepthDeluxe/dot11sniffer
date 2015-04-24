@@ -7,6 +7,7 @@ class Compress:
     def __init__(self):
         self.client = pymongo.MongoClient("gouda.bucknell.edu")
         self.collection = client.cheddar.compress
+        self.timedb = client.cheddar.times
         
     def upload(self,time,data):
         pickled = cPickle.dumps(data)
@@ -20,3 +21,6 @@ class Compress:
         pickled = zlib.decompress(str(data))
         data = cPickle.loads(pickled)
         return {'_id':time,'data':data}
+
+    def remove(self,time):
+        self.timedb.delete_one({'_id':time})
