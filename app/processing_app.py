@@ -4,52 +4,26 @@ import DBFinder
 import dbCompressor
 import os
 import Trilateration_Colin
-import matplotlib
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+import numpy as np
+import imageMaker
 
 # sniffers are
 # [ sniffer-0, sniffer-1, sniffer-something ]
-snifferPositions = [Trilateration_Colin.Point(361, 231), Trilateration_Colin.Point(338, 617), Trilateration_Colin.Point(194, 665)]
-
-def dist( x1, x2, y1, y2 ):
-    d = math.sqrt( (x1-x2)**2 + (y1-y2)**2 )
-    if d==0.0:
-        return 1.0
-    else:
-        return d
+snifferPositions = [Trilateration_Colin.Point(391, 61), Trilateration_Colin.Point(220, 715), Trilateration_Colin.Point(1233, 717)]
 
 def plotLocations():
-    f = DBFinder()
-    l = f.findIds()
+    finder = DBFinder.DBFinder()
+    times = finder.findIds()
 
-    d = f.pull_processed_block(l[-2])
-
-    sizeX = 904
-    sizeY = 1033
-    numBins = 2.0
-    xi = np.arange(0.0, float(sizeX))
-    yi = np.arange(0.0, float(sizeY))
-    locationsX = []
-    locationsY = []
-    for i in range(0, len(d)):
-	locationsX += [d[i][0]]
-	locationsY += [d[i][1]]
-
-    scale = 0.5
-    dpi = 80
-    # 80 dots/inch * 12 inches/foot * 5 feet/32 pixels = 150
-    lena = Image.open('/var/www/html/images/brki_w_nodes.png')
-    figsize = scale*lena.size[0]/dpi, scale*lena.size[1]/dpi
-    fig = plt.figure(figsize=figsize)
-
-    ax = fig.add_subplot(111)
-    ax.imshow(lena)
-
-    ax.plot(locationsX, locationsY,'o')
-    ax.set_xlim(0, len(xi))
-    ax.set_ylim(0, len(yi))
-    ax.set_title("Muenster Cheese")
-    fig.savefig("test.png", pad_inches=0)
-    plt.close(fig)
+    pos = finder.pull_processed_block(times[-2])
+    
+    im = imageMaker.ImageMaker('larrison-floorplan.png')
+    for point in pos:
+        im.addPoint(point[0],point[1])
+    im.saveImage()
+    
 
 def writePIDFile():
     f = open("./processing.pid", "w")
