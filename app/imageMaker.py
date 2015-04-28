@@ -13,3 +13,4 @@ class ImageMaker:
 
     def saveImage(self):
         plt.savefig('/var/www/html/images/test.png')
+        plt.clf()
